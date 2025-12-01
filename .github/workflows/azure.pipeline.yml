@@ -24,9 +24,9 @@ jobs:
           pip install pytest  # Install the required testing library
           pip install databricks-cli  # Install Databricks CLI
 
-      # - name: Run Tests
-      #   run: |
-      #     pytest test-train.py
+      - name: Run Tests
+        run: |
+          pytest tests/
           
   deploy:
     runs-on: ubuntu-latest
@@ -40,28 +40,17 @@ jobs:
         env:
           DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com/
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRECT }}
-      - name: Debug Environment Variables
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
         run: |
-          echo "Databricks Host: $DATABRICKS_HOST"
-          
-        
-
-        
-          
           # Log into Databricks using client ID and secret
           databricks configure --token <<< "$DATABRICKS_CLIENT_SECRET"
-      - name: Debug Environment Variables
-        run: |
-          echo "Databricks Host: $DATABRICKS_HOST"
-         
-  
+          
       - name: Deploy and Register Model
         env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }} # Define the Databricks host
-          
         run: |
           # Upload your training script to Databricks
+          echo "Databricks Host: $DATABRICKS_HOST"
           databricks fs cp ./notebooks/train.py dbfs:/tmp/train.py
           
           # Submit a job to run the training script
