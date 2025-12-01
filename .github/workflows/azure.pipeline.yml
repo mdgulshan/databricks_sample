@@ -1,0 +1,62 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest  # Install the required testing library
+          pip install databricks-cli  # Install Databricks CLI
+
+      - name: Run Tests
+        run: |
+          pytest tests/
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Configure Databricks CLI
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+        run: |
+          # Log into Databricks using client ID and secret
+          databricks configure --token <<< "$DATABRICKS_CLIENT_SECRET"
+          
+      - name: Deploy and Register Model
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }} # Define the Databricks host
+        run: |
+          # Upload your training script to Databricks
+          databricks fs cp ./notebooks/train.py dbfs:/tmp/train.py
+          
+          # Submit a job to run the training script
+          databricks jobs run-submit --json '{
+            "name": "Train Model",
+            "existing_cluster_id": "YOUR_CLUSTER_ID",  # Specify your Databricks cluster ID
+            "notebook_task": {
+              "notebook_path": "/tmp/train.py"
+            }
+          }'
