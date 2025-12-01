@@ -41,17 +41,25 @@ jobs:
           DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com/
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRECT }}
-          
+      - name: Debug Environment Variables
         run: |
+          echo "Databricks Host: $DATABRICKS_HOST"
+          echo "Databricks Token: $DATABRICKS_TOKEN"
+        
           # Install Databricks CLI (if not done above)
           pip install databricks-cli
           echo "[DEFAULT]" > ~/.databrickscfg
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+        
           
           # Log into Databricks using client ID and secret
           databricks configure --token <<< "$DATABRICKS_CLIENT_SECRET"
-          
+      - name: Debug Environment Variables
+        run: |
+          echo "Databricks Host: $DATABRICKS_HOST"
+          echo "Databricks Token: $DATABRICKS_TOKEN"
+  
       - name: Deploy and Register Model
         env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }} # Define the Databricks host
