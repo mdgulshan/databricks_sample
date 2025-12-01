@@ -44,12 +44,13 @@ jobs:
           DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
         run: |
-          echo "Configuring Databricks CLI..."
           mkdir -p ~/.databrickscfg
-          echo "[DEFAULT]" > ~/.databrickscfg/databrickscfg
-          echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg/databrickscfg
-          echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg/databrickscfg
-          cat ~/.databrickscfg/databrickscfg
+          cat > ~/.databrickscfg/databrickscfg << EOF
+          [DEFAULT]
+          host = ${{ vars.DATABRICKS_HOST }}
+          token = ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          EOF
+          cat ~/.databrickscfg/databrickscfg  # Debugging step to verify the config
       - name: Upload Training Script to DBFS
         run: |
           echo "Uploading training script to DBFS..."
