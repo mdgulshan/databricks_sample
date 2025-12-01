@@ -56,16 +56,34 @@ jobs:
       #     echo "Uploading training script to DBFS..."
       #     databricks fs cp ./notebooks/train.py dbfs:/tmp/train.py --overwrite
 
-      - name: Submit Databricks Job
+      # - name: Submit Databricks Job
+      #   env:
+      #     DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
+      #     DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+      #   run: |
+      #     echo "Submitting Databricks job..."
+      #     databricks jobs run-submit --json '{
+      #       "name": "Train Model",
+      #       "existing_cluster_id": "1201-082508-pah61jfu-v2n",
+      #       "notebook_task": {
+      #         "notebook_path": "/tmp/train.py"
+      #       }
+      #     }'
+
+      
+      - name: Deploy and Register Model
         env:
-          DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }} # Define the Databricks host
         run: |
-          echo "Submitting Databricks job..."
+          # Upload your training script to Databricks
+          databricks fs cp ./notebooks/train.py dbfs:/tmp/train.py
+          
+          # Submit a job to run the training script
           databricks jobs run-submit --json '{
             "name": "Train Model",
-            "existing_cluster_id": "1201-082508-pah61jfu-v2n",
+            "existing_cluster_id": "1201-082508-pah61jfu-v2n",  # Specify your Databricks cluster ID
             "notebook_task": {
               "notebook_path": "/tmp/train.py"
             }
-          }'
+          }'  
+
