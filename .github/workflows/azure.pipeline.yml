@@ -44,6 +44,9 @@ jobs:
         run: |
           # Install Databricks CLI (if not done above)
           pip install databricks-cli
+          echo "[DEFAULT]" > ~/.databrickscfg
+          echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
+          echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
           
           # Log into Databricks using client ID and secret
           databricks configure --token <<< "$DATABRICKS_CLIENT_SECRET"
