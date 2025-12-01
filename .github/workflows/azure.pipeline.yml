@@ -40,7 +40,7 @@ jobs:
         env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRECT }}
         run: |
           # Install Databricks CLI (if not done above)
           pip install databricks-cli
@@ -58,7 +58,7 @@ jobs:
           # Submit a job to run the training script
           databricks jobs run-submit --json '{
             "name": "Train Model",
-            "existing_cluster_id": "YOUR_CLUSTER_ID",  # Specify your Databricks cluster ID
+            "existing_cluster_id": "1201-082508-pah61jfu-v2n",  # Specify your Databricks cluster ID
             "notebook_task": {
               "notebook_path": "/tmp/train.py"
             }
