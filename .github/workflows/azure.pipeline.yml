@@ -44,9 +44,14 @@ jobs:
           DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
         run: |
-          echo "Databricks CLI configured using environment variables"
-          # Validate CLI configuration
-          databricks clusters list || echo "Warning: Unable to list clusters"
+          # echo "Databricks CLI configured using environment variables"
+          # # Validate CLI configuration
+          # databricks clusters list || echo "Warning: Unable to list clusters"
+          echo "Configuring Databricks CLI..."
+          databricks configure --token <<EOF
+          $DATABRICKS_HOST
+          $DATABRICKS_TOKEN
+          EOF
 
       # - name: Upload Training Script to DBFS
       #   env:
