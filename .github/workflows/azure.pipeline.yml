@@ -48,13 +48,13 @@ jobs:
           # Validate CLI configuration
           databricks clusters list || echo "Warning: Unable to list clusters"
 
-      - name: Upload Training Script to DBFS
-        env:
-          DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-        run: |
-          echo "Uploading training script to DBFS..."
-          databricks fs cp ./notebooks/train.py dbfs:/tmp/train.py --overwrite
+      # - name: Upload Training Script to DBFS
+      #   env:
+      #     DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
+      #     DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+      #   run: |
+      #     echo "Uploading training script to DBFS..."
+      #     databricks fs cp ./notebooks/train.py dbfs:/tmp/train.py --overwrite
 
       - name: Submit Databricks Job
         env:
