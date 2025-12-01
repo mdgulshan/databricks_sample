@@ -49,6 +49,7 @@ jobs:
           echo "[DEFAULT]" > ~/.databrickscfg/databrickscfg
           echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg/databrickscfg
           echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg/databrickscfg
+          cat ~/.databrickscfg/databrickscfg
       - name: Upload Training Script to DBFS
         run: |
           echo "Uploading training script to DBFS..."
