@@ -38,17 +38,18 @@ jobs:
 
       - name: Install Databricks CLI
         run: pip install databricks-cli
+        
 
       - name: Configure Databricks CLI
         env:
           DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_CLIENT_SECRECT }}
         run: |
           mkdir -p ~/.databrickscfg
           cat > ~/.databrickscfg/databrickscfg << EOF
           [DEFAULT]
           host = ${{ vars.DATABRICKS_HOST }}
-          token = ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          token = ${{ secrets.DATABRICKS_CLIENT_SECRECT }}
           EOF
           cat ~/.databrickscfg/databrickscfg  # Debugging step to verify the config
       - name: Upload Training Script to DBFS
