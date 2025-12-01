@@ -43,7 +43,10 @@ jobs:
       - name: Configure Databricks CLI
         env:
           DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com
-          DATABRICKS_TOKEN: dapi689550ab2fc1ecae2b0942bdfb5c6c7b
+          # DATABRICKS_TOKEN: dapi689550ab2fc1ecae2b0942bdfb5c6c7b
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
         run: |
           mkdir -p ~/.databricks
           cat > ~/.databricks/config << EOF
