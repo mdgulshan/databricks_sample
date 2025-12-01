@@ -35,6 +35,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Install Databricks CLI
+        run: |
+          pip install databricks-cli  # Explicitly install Databricks CLI
 
       - name: Configure Databricks CLI
         env:
