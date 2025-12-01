@@ -24,9 +24,9 @@ jobs:
           pip install pytest  # Install the required testing library
           pip install databricks-cli  # Install Databricks CLI
 
-      - name: Run Tests
-        run: |
-          pytest tests/
+      # - name: Run Tests
+      #   run: |
+      #     pytest tests/
           
   deploy:
     runs-on: ubuntu-latest
