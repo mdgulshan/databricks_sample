@@ -38,7 +38,7 @@ jobs:
 
       - name: Configure Databricks CLI
         env:
-          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_HOST: https://dbc-6bbf4035-2b43.cloud.databricks.com/
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRECT }}
         run: |
